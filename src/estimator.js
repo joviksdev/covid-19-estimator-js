@@ -20,12 +20,12 @@ const covid19ImpactEstimator = inputData => {
   severeImpact.currentlyInfected = reportedCases * 50;
 
   impact.infectionsByRequestedTime = computeNumberOfDays(
-    currentlyInfected,
+    impact.currentlyInfected,
     timeToElapse
   );
 
   severeImpact.infectionsByRequestedTime = computeNumberOfDays(
-    currentlyInfected,
+    severeImpact.currentlyInfected,
     timeToElapse
   );
 
