@@ -4,7 +4,7 @@ const computeNumberOfDays = (value, days) => {
   // Number of set in a day (fators)
   const factor = Math.round(days / 3);
 
-  return value * Math.pow(2, factor);
+  return value * 2 ** factor;
 };
 
 export default computeNumberOfDays;
