@@ -6,13 +6,12 @@ import {
 
 const covid19ImpactEstimator = (data) => {
   const {
-    region,
     periodType,
     timeToElapse,
     reportedCases,
-    population,
     totalHospitalBeds
   } = data;
+
 
   const impact = {};
   const severeImpact = {};
@@ -53,6 +52,7 @@ const covid19ImpactEstimator = (data) => {
     0.05,
     impact.infectionsByRequestedTime
   );
+  
   severeImpact.casesForICUByRequestedTime = percentEstimate(
     0.05,
     severeImpact.infectionsByRequestedTime
@@ -73,12 +73,7 @@ const covid19ImpactEstimator = (data) => {
 
   dollarsInFlight.severeImpact = severeImpact.infectionsByRequestedTime * 0.05 * 0.71 * normaliseTime;
 
-   return {
-     data,
-     impact,
-     severeImpact,
-     dollarsInFlight
-    };
+   return {data, impact, severeImpact, dollarsInFlight};
 
 };
 
