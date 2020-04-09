@@ -1,6 +1,10 @@
-import computeNumberOfDays from './computation';
+import {
+  normaliseDuration,
+  infectedEstimation,
+  percentEstimate
+} from './computation';
 
-const covid19ImpactEstimator = inputData => {
+const covid19ImpactEstimator = (data) => {
   const {
     region,
     periodType,
@@ -10,24 +14,78 @@ const covid19ImpactEstimator = inputData => {
     totalHospitalBeds
   } = inputData;
 
-  const data = {};
   const impact = {};
   const severeImpact = {};
 
-  // Create properties to impcat and severeImpact and assign value to them
+  // Initialize normalise duration
+
+  const normaliseTimeElapse = normaliseDuration(timeToElapse, periodType);
 
   impact.currentlyInfected = reportedCases * 10;
   severeImpact.currentlyInfected = reportedCases * 50;
 
-  impact.infectionsByRequestedTime = computeNumberOfDays(
+  impact.infectionsByRequestedTime = infectedEstimation(
     impact.currentlyInfected,
-    timeToElapse
+    normaliseTimeElapse
   );
 
-  severeImpact.infectionsByRequestedTime = computeNumberOfDays(
+  severeImpact.infectionsByRequestedTime = infectedEstimation(
     severeImpact.currentlyInfected,
-    timeToElapse
+    normaliseTimeElapse
   );
+
+  impact.severeCasesByRequestedTime = percentEstimate(
+    0.15,
+    impact.infectionsByRequestedTime
+  );
+
+  severeImpact.severeCasesByRequestedTime = percentEstimate(
+    0.15,
+    impact.infectionsByRequestedTime
+  );
+
+  impact.hospitalBedsByRequestedTime =
+    percentEstimate(0.35, totalHospitalBeds) -
+    impact.severeCasesByRequestedTime;
+
+  severeImpact.hospitalBedsByRequestedTime =
+    percentEstimate(0.35, totalHospitalBeds) -
+    impact.severeCasesByRequestedTime;
+
+  impact.casesForICUByRequestedTime = percentEstimate(
+    0.05,
+    impact.infectionsByRequestedTime
+  );
+
+  severeImpact.casesForICUByRequestedTime = percentEstimate(
+    0.05,
+    impact.infectionsByRequestedTime
+  );
+
+  impact.casesForVentilatorsByRequestedTime = percentEstimate(
+    0.02,
+    impact.infectionsByRequestedTime
+  );
+
+  severeImpact.casesForVentilatorsByRequestedTime = percentEstimate(
+    0.02,
+    impact.infectionsByRequestedTime
+  );
+
+  const dollarsInFlight = {};
+  const { avgDailyIncomeInUSD, avgDailyIncomePopulation } = region;
+
+  dollarsInFlight.impact =
+    impact.infectionsByRequestedTime *
+    avgDailyIncomePopulation *
+    avgDailyIncomeInUSD *
+    normaliseTimeElapse;
+
+  dollarsInFlight.severeImpact =
+    severeImpact.infectionsByRequestedTime *
+    avgDailyIncomePopulation *
+    avgDailyIncomeInUSD *
+    normaliseTimeElapse;
 
   const output = {
     data,
@@ -35,7 +93,7 @@ const covid19ImpactEstimator = inputData => {
     severeImpact
   };
 
-  return output;
+  return { ...output, dollarsInFlight };
 };
 
 export default covid19ImpactEstimator;
