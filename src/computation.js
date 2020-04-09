@@ -26,4 +26,4 @@ const infectedEstimation = (infected, time) => {
 
 const percentEstimate = (percent, value) => percent * value;
 
-export { normaliseDuration, infectedEstimation, percentInfectedEstimate };
+export { normaliseDuration, infectedEstimation, percentEstimate };

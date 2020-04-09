@@ -12,7 +12,7 @@ const covid19ImpactEstimator = (data) => {
     reportedCases,
     population,
     totalHospitalBeds
-  } = inputData;
+  } = data;
 
   const impact = {};
   const severeImpact = {};
