@@ -44,9 +44,9 @@ const covid19ImpactEstimator = (data) => {
   // Percentage value of Total Hospital Bed
   const percentOfValue = percentEstimate(0.35, totalHospitalBeds);
 
-  impact.hospitalBedsByRequestedTime = percentOfValue - impact.severeCasesByRequestedTime;
+  impact.hospitalBedsByRequestedTime = percentOfValue-impact.severeCasesByRequestedTime;
 
-  severeImpact.hospitalBedsByRequestedTime = percentOfValue - severeImpact.severeCasesByRequestedTime;
+  severeImpact.hospitalBedsByRequestedTime = percentOfValue-severeImpact.severeCasesByRequestedTime;
 
   impact.casesForICUByRequestedTime = percentEstimate(
     0.05,
@@ -69,11 +69,19 @@ const covid19ImpactEstimator = (data) => {
 
   const dollarsInFlight = {};
 
-  dollarsInFlight.impact = impact.infectionsByRequestedTime * 0.05 * 0.71 * normaliseTime;
+  const impactIncome = impact.infectionsByRequestedTime * 0.05 * 0.71 * normaliseTime;
+  dollarsInFlight.impact = impactIncome.toFixed(2);
 
-  dollarsInFlight.severeImpact = severeImpact.infectionsByRequestedTime * 0.05 * 0.71 * normaliseTime;
 
-   return {data, impact, severeImpact, dollarsInFlight};
+  const severeImpactIncome = severeImpact.infectionsByRequestedTime * 0.05 * 0.71 * normaliseTime;
+  dollarsInFlight.severeImpact = severeImpactIncome.toFixed(2);
+
+   return { 
+     data, 
+     impact, 
+     severeImpact, 
+     dollarsInFlight 
+   };
 
 };
 
