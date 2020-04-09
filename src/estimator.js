@@ -1,20 +1,12 @@
 import { normaliseDuration, infectedEstimation, percentEstimate } from './computation';
 
 const covid19ImpactEstimator = (data) => {
-  const {
-    region,
-    periodType,
-    timeToElapse,
-    reportedCases,
-    population,
-    totalHospitalBeds
-  } = data;
+  const {region, periodType, timeToElapse, reportedCases, population, totalHospitalBeds } = data;
 
   const impact = {};
   const severeImpact = {};
 
   // Initialize normalise duration
-
   const normaliseTimeElapse = normaliseDuration(timeToElapse, periodType);
 
   impact.currentlyInfected = reportedCases * 10;
