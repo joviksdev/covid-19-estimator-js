@@ -24,10 +24,10 @@ const covid19ImpactEstimator = (data) => {
     normaliseTime
   );
 
-  severeImpact.infectionsByRequestedTime = Math.round(infectedEstimation(
+  severeImpact.infectionsByRequestedTime = infectedEstimation(
     severeImpact.currentlyInfected,
     normaliseTime
-  ));
+  );
 
   impact.severeCasesByRequestedTime = Math.round(percentEstimate(
     0.15,
