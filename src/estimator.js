@@ -35,16 +35,16 @@ const covid19ImpactEstimator = (data) => {
   );
   severeImpact.severeCasesByRequestedTime = percentEstimate(
     0.15,
-    impact.infectionsByRequestedTime
+    severeImpact.infectionsByRequestedTime
   );
 
   // Percentage value of Total Hospital Bed
 
-  impact.hospitalBedsByRequestedTime = impact.severeCasesByRequestedTime
-  - percentEstimate(0.35, totalHospitalBeds);
+  impact.hospitalBedsByRequestedTime = percentEstimate(0.35, totalHospitalBeds)
+  - impact.severeCasesByRequestedTime;
 
-  severeImpact.hospitalBedsByRequestedTime = severeImpact.severeCasesByRequestedTime
-  - percentEstimate(0.35, totalHospitalBeds);
+  severeImpact.hospitalBedsByRequestedTime = percentEstimate(0.35, totalHospitalBeds)
+  - severeImpact.severeCasesByRequestedTime;
 
   impact.casesForICUByRequestedTime = percentEstimate(
     0.05,
