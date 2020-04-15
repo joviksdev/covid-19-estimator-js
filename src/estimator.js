@@ -6,19 +6,15 @@ import {
 
 const covid19ImpactEstimator = (data) => {
   const {
-    periodType,
-    timeToElapse,
-    reportedCases,
-    totalHospitalBeds
+    region, periodType, timeToElapse, reportedCases, totalHospitalBeds
   } = data;
 
+  const { avgDailyIncomeInUSD, avgDailyIncomePopulation } = region;
 
   const impact = {};
   const severeImpact = {};
-
   // Initialize normalise duration
   const normaliseTime = normaliseDuration(timeToElapse, periodType);
-
   impact.currentlyInfected = reportedCases * 10;
   severeImpact.currentlyInfected = reportedCases * 50;
 
@@ -44,15 +40,16 @@ const covid19ImpactEstimator = (data) => {
   // Percentage value of Total Hospital Bed
   const percentOfValue = percentEstimate(0.35, totalHospitalBeds);
 
-  impact.hospitalBedsByRequestedTime = percentOfValue-impact.severeCasesByRequestedTime;
+  impact.hospitalBedsByRequestedTime = percentOfValue - impact.severeCasesByRequestedTime;
 
-  severeImpact.hospitalBedsByRequestedTime = percentOfValue-severeImpact.severeCasesByRequestedTime;
+  severeImpact.hospitalBedsByRequestedTime = percentOfValue
+  - severeImpact.severeCasesByRequestedTime;
 
   impact.casesForICUByRequestedTime = percentEstimate(
     0.05,
     impact.infectionsByRequestedTime
   );
-  
+
   severeImpact.casesForICUByRequestedTime = percentEstimate(
     0.05,
     severeImpact.infectionsByRequestedTime
@@ -69,20 +66,22 @@ const covid19ImpactEstimator = (data) => {
 
   const dollarsInFlight = {};
 
-  const impactIncome = impact.infectionsByRequestedTime * 0.05 * 0.71 * normaliseTime;
+  const averageIncome = avgDailyIncomeInUSD / 100;
+
+  const impactIncome = (impact.infectionsByRequestedTime
+  * averageIncome * avgDailyIncomePopulation) / normaliseTime;
   dollarsInFlight.impact = impactIncome.toFixed(2);
 
-
-  const severeImpactIncome = severeImpact.infectionsByRequestedTime * 0.05 * 0.71 * normaliseTime;
+  const severeImpactIncome = (severeImpact.infectionsByRequestedTime * averageIncome
+    * avgDailyIncomeInUSD) / normaliseTime;
   dollarsInFlight.severeImpact = severeImpactIncome.toFixed(2);
 
-   return { 
-     data, 
-     impact, 
-     severeImpact, 
-     dollarsInFlight 
-   };
-
+  return {
+    data,
+    impact,
+    severeImpact,
+    dollarsInFlight
+  };
 };
 
 export default covid19ImpactEstimator;

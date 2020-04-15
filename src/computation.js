@@ -1,5 +1,4 @@
 // Normalise the duration in day
-
 const normaliseDuration = (time, periodType) => {
   switch (periodType) {
     case 'months':
