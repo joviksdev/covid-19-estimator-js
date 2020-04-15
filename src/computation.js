@@ -7,11 +7,8 @@ const normaliseDuration = (time, periodType) => {
     case 'weeks':
       return time * 7;
 
-    case 'days':
-      return time;
-
     default:
-      return null;
+      return time;
   }
 };
 
