@@ -40,11 +40,11 @@ const covid19ImpactEstimator = (data) => {
 
   // Percentage value of Total Hospital Bed
 
-  impact.hospitalBedsByRequestedTime = percentEstimate(0.35, totalHospitalBeds)
-  - impact.severeCasesByRequestedTime;
+  impact.hospitalBedsByRequestedTime = impact.severeCasesByRequestedTime
+  - percentEstimate(0.35, totalHospitalBeds);
 
-  severeImpact.hospitalBedsByRequestedTime = percentEstimate(0.35, totalHospitalBeds)
-  - severeImpact.severeCasesByRequestedTime;
+  severeImpact.hospitalBedsByRequestedTime = severeImpact.severeCasesByRequestedTime
+  - percentEstimate(0.35, totalHospitalBeds);
 
   impact.casesForICUByRequestedTime = percentEstimate(
     0.05,
