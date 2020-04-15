@@ -16,10 +16,10 @@ const infectedEstimation = (infected, time) => {
   // currentlyInfected as value is doubles every 3 days
 
   // Number of set in a day (fators)
-  const factor = Math.round(time / 3);
+  const factor = parseInt(time / 3);
   return infected * 2 ** factor;
 };
 
-const percentEstimate = (percent, value) => Math.floor(percent * value);
+const percentEstimate = (percent, value) => parseInt(percent * value);
 
 export { normaliseDuration, infectedEstimation, percentEstimate };
