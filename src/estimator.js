@@ -33,6 +33,7 @@ const covid19ImpactEstimator = (data) => {
     0.15,
     impact.infectionsByRequestedTime
   );
+
   severeImpact.severeCasesByRequestedTime = percentEstimate(
     0.15,
     severeImpact.infectionsByRequestedTime
