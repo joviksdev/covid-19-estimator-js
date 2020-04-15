@@ -29,14 +29,14 @@ const covid19ImpactEstimator = (data) => {
     normaliseTime
   );
 
-  impact.severeCasesByRequestedTime = percentEstimate(
+  impact.severeCasesByRequestedTime = Math.round(percentEstimate(
     0.15,
     impact.infectionsByRequestedTime
-  );
-  severeImpact.severeCasesByRequestedTime = percentEstimate(
+  ));
+  severeImpact.severeCasesByRequestedTime = Math.round(percentEstimate(
     0.15,
     impact.infectionsByRequestedTime
-  );
+  ));
 
   // Percentage value of Total Hospital Bed
 
