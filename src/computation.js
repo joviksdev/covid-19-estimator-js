@@ -23,6 +23,6 @@ const infectedEstimation = (infected, time) => {
   return infected * 2 ** factor;
 };
 
-const percentEstimate = (percent, value) => percent * value;
+const percentEstimate = (percent, value) => Math.round(percent * value);
 
 export { normaliseDuration, infectedEstimation, percentEstimate };
