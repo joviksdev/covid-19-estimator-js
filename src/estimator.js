@@ -23,37 +23,38 @@ const covid19ImpactEstimator = (data) => {
     impact.currentlyInfected,
     normaliseTime
   );
-  severeImpact.infectionsByRequestedTime = infectedEstimation(
+
+  severeImpact.infectionsByRequestedTime = Math.round(infectedEstimation(
     severeImpact.currentlyInfected,
     normaliseTime
-  );
+  ));
 
-  impact.severeCasesByRequestedTime = percentEstimate(
+  impact.severeCasesByRequestedTime = Math.round(percentEstimate(
     0.15,
     impact.infectionsByRequestedTime
-  );
-  severeImpact.severeCasesByRequestedTime = percentEstimate(
+  ));
+  severeImpact.severeCasesByRequestedTime = Math.round(percentEstimate(
     0.15,
     impact.infectionsByRequestedTime
-  );
+  ));
 
   // Percentage value of Total Hospital Bed
 
-  impact.hospitalBedsByRequestedTime = percentEstimate(0.35, totalHospitalBeds)
-  - impact.severeCasesByRequestedTime;
+  impact.hospitalBedsByRequestedTime = Math.round(percentEstimate(0.35, totalHospitalBeds)
+  - impact.severeCasesByRequestedTime);
 
-  severeImpact.hospitalBedsByRequestedTime = percentEstimate(0.35, totalHospitalBeds)
-  - severeImpact.severeCasesByRequestedTime;
+  severeImpact.hospitalBedsByRequestedTime = Math.round(percentEstimate(0.35, totalHospitalBeds)
+  - severeImpact.severeCasesByRequestedTime);
 
-  impact.casesForICUByRequestedTime = percentEstimate(
+  impact.casesForICUByRequestedTime = Math.round(percentEstimate(
     0.05,
     impact.infectionsByRequestedTime
-  );
+  ));
 
-  severeImpact.casesForICUByRequestedTime = percentEstimate(
+  severeImpact.casesForICUByRequestedTime = Math.round(percentEstimate(
     0.05,
     severeImpact.infectionsByRequestedTime
-  );
+  ));
 
   impact.casesForVentilatorsByRequestedTime = percentEstimate(
     0.02,
